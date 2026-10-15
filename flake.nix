@@ -22,6 +22,8 @@
             nodejs
             pnpm
             pkgs.git
+            # ECMA-376 conformance tests validate generated XML with `xmllint`.
+            pkgs.libxml2
             # `python3` is needed by `pnpm install` for any node-gyp builds and
             # for the openpyxl reference fixtures.
             pkgs.python3
@@ -42,7 +44,7 @@
         # Convenience for `nix flake check` — does a fast typecheck + test run.
         # Heavier checks (build, lint) are run in CI directly.
         checks.default = pkgs.runCommand "openxml-js-check"
-          { buildInputs = [ nodejs pnpm ]; }
+          { buildInputs = [ nodejs pnpm pkgs.libxml2 ]; }
           ''
             cp -r ${self} src
             cd src
